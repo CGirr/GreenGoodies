@@ -67,6 +67,8 @@ readonly class CartService
 
     public function updateCartTotalPrice(Order $cart): void
     {
+        $this->entityManager->refresh($cart);
+
         $total = 0;
         foreach ($cart->getOrderItems() as $orderItem) {
             $total += $orderItem->getUnitPrice() * $orderItem->getQuantity();
@@ -120,14 +122,19 @@ readonly class CartService
         $this->entityManager->flush();
     }
 
-    public function validateCart(): void
+    public function validateCart(): bool
     {
         $cart = $this->getOrCreateCart();
+
+        if ($cart->getOrderItems()->isEmpty()) {
+            return false;
+        }
 
         $cart->setStatus('validated');
         $cart->setOrderDate(new \DateTimeImmutable());
         $cart->setOrderNumber($cart->getId());
 
         $this->entityManager->flush();
+        return true;
     }
 }

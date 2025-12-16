@@ -9,10 +9,15 @@
 </style>
 
     <div>
-        <a href="{{ path('app_cart_clear')}}">Vider le panier</a>
+        {% if cart.orderItems is not empty %}
+            <a href="{{ path('app_cart_clear') }}">Vider le panier</a>
+        {% endif %}
     </div>
     <div>
         {% for message in app.flashes('success') %}
+            <div>{{ message }}</div>
+        {% endfor %}
+        {% for message in app.flashes('error') %}
             <div>{{ message }}</div>
         {% endfor %}
 
@@ -27,6 +32,8 @@
         <div>Total panier : {{ cart.totalPrice }}€</div>
     </div>
     <div>
-        <a href="{{ path('app_cart_validate') }}">Valider la commande</a>
+        {% if cart.orderItems is not empty %}
+            <a href="{{ path('app_cart_validate') }}">Valider la commande</a>
+        {% endif %}
     </div>
 {% endblock %}

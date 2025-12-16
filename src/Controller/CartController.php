@@ -33,10 +33,12 @@ final class CartController extends AbstractController
     #[Route('/cart/validate', name: 'app_cart_validate')]
     public function validateCart(): Response
     {
-        $this->cartService->validateCart();
+        if (!$this->cartService->validateCart()) {
+            $this->addFlash('error', 'Votre panier est vide.');
+            return $this->redirectToRoute('app_cart');
+        }
 
         $this->addFlash('success', 'Votre commande a bien été validée !');
-
         return $this->redirectToRoute('app_cart');
     }
 }
