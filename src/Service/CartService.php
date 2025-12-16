@@ -9,7 +9,7 @@ use App\Repository\OrderRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 
-class CartService
+readonly class CartService
 {
     public function __construct
     (
@@ -106,5 +106,28 @@ class CartService
             $this->entityManager->flush();
             $this->updateCartTotalPrice($cart);
         }
+    }
+
+    public function clearCart(): void
+    {
+        $cart = $this->getOrCreateCart();
+
+        foreach ($cart->getOrderItems() as $orderItem) {
+            $this->entityManager->remove($orderItem);
+        }
+
+        $cart->setTotalPrice(0);
+        $this->entityManager->flush();
+    }
+
+    public function validateCart(): void
+    {
+        $cart = $this->getOrCreateCart();
+
+        $cart->setStatus('validated');
+        $cart->setOrderDate(new \DateTimeImmutable());
+        $cart->setOrderNumber($cart->getId());
+
+        $this->entityManager->flush();
     }
 }

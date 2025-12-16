@@ -5,9 +5,9 @@ namespace App\Service;
 use App\Entity\Product;
 use App\Repository\ProductRepository;
 
-class ProductService
+readonly class ProductService
 {
-    public function __construct(private readonly ProductRepository $productRepository)
+    public function __construct(private ProductRepository $productRepository)
     {}
 
     public function getAllProducts(): array
