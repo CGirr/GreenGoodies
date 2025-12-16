@@ -13,8 +13,13 @@
     <div>{{ product.name }}</div>
     <div>{{ product.price }}</div>
     <div>{{ product.fullDescription }}</div>
-    {% if app.user %}
-        <a href="">Ajouter au panier</a>
+    {% if form %}
+        {{ form_start(form) }}
+            {{ form_row(form.quantity) }}
+                <button type="submit">
+                    {{ isInCart ? 'Mettre à jour' : 'Ajouter au panier' }}
+                </button>
+            {{ form_end(form) }}
     {% else %}
         <a href="{{ path('app_login') }}">Se connecter pour commander</a>
     {% endif %}

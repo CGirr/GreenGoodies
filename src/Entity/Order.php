@@ -16,10 +16,10 @@ class Order
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $orderNumber = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $orderDate = null;
 
     #[ORM\Column]
@@ -34,6 +34,9 @@ class Order
      */
     #[ORM\OneToMany(targetEntity: OrderItem::class, mappedBy: 'parentOrder', orphanRemoval: true)]
     private Collection $orderItems;
+
+    #[ORM\Column(length: 255)]
+    private ?string $status = 'cart';
 
     public function __construct()
     {
@@ -119,6 +122,18 @@ class Order
                 $orderItem->setParentOrder(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): static
+    {
+        $this->status = $status;
 
         return $this;
     }
