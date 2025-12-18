@@ -15,7 +15,7 @@ final class CartController extends AbstractController
     #[Route('/cart', name: 'app_cart')]
     public function index(): Response
     {
-        $cart = $this->cartService->getOrCreateCart();
+        $cart = $this->cartService->getCart();
 
         return $this->render('cart/index.html.twig', [
            'cart' => $cart,

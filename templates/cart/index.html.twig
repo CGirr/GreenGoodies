@@ -9,7 +9,7 @@
 </style>
 
     <div>
-        {% if cart.orderItems is not empty %}
+        {% if cart.orderProducts is not empty %}
             <a href="{{ path('app_cart_clear') }}">Vider le panier</a>
         {% endif %}
     </div>
@@ -21,7 +21,7 @@
             <div>{{ message }}</div>
         {% endfor %}
 
-        {% for item in cart.orderItems %}
+        {% for item in cart.orderProducts %}
             <img src="{{ asset('images/products/' ~ item.product.picture) }}" alt="{{ item.product.name }}"/>
             <div>{{ item.product.name }}</div>
             <div>Quantité : {{ item.quantity }}</div>
@@ -32,7 +32,7 @@
         <div>Total panier : {{ cart.totalPrice }}€</div>
     </div>
     <div>
-        {% if cart.orderItems is not empty %}
+        {% if cart.orderProducts is not empty %}
             <a href="{{ path('app_cart_validate') }}">Valider la commande</a>
         {% endif %}
     </div>

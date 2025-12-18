@@ -30,17 +30,17 @@ class Order
     private ?User $customer = null;
 
     /**
-     * @var Collection<int, OrderItem>
+     * @var Collection<int, OrderProduct>
      */
-    #[ORM\OneToMany(targetEntity: OrderItem::class, mappedBy: 'parentOrder', orphanRemoval: true)]
-    private Collection $orderItems;
+    #[ORM\OneToMany(targetEntity: OrderProduct::class, mappedBy: 'parentOrder', orphanRemoval: true)]
+    private Collection $orderProducts;
 
     #[ORM\Column(length: 255)]
     private ?string $status = 'cart';
 
     public function __construct()
     {
-        $this->orderItems = new ArrayCollection();
+        $this->orderProducts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -97,29 +97,28 @@ class Order
     }
 
     /**
-     * @return Collection<int, OrderItem>
+     * @return Collection<int, OrderProduct>
      */
-    public function getOrderItems(): Collection
+    public function getOrderProducts(): Collection
     {
-        return $this->orderItems;
+        return $this->orderProducts;
     }
 
-    public function addOrderItem(OrderItem $orderItem): static
+    public function addOrderProduct(OrderProduct $orderProduct): static
     {
-        if (!$this->orderItems->contains($orderItem)) {
-            $this->orderItems->add($orderItem);
-            $orderItem->setParentOrder($this);
+        if (!$this->orderProducts->contains($orderProduct)) {
+            $this->orderProducts->add($orderProduct);
+            $orderProduct->setParentOrder($this);
         }
 
         return $this;
     }
 
-    public function removeOrderItem(OrderItem $orderItem): static
+    public function removeOrderProduct(OrderProduct $orderProduct): static
     {
-        if ($this->orderItems->removeElement($orderItem)) {
-            // set the owning side to null (unless already changed)
-            if ($orderItem->getParentOrder() === $this) {
-                $orderItem->setParentOrder(null);
+        if ($this->orderProducts->removeElement($orderProduct)) {
+            if ($orderProduct->getParentOrder() === $this) {
+                $orderProduct->setParentOrder(null);
             }
         }
 

@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Order;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Exception\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -37,6 +38,20 @@ class OrderRepository extends ServiceEntityRepository
             ->setParameter('status', 'validated')
             ->getQuery()
             ->getResult();
+    }
+
+    public function save(Order $order): void
+    {
+        $this->getEntityManager()->persist($order);
+        $this->getEntityManager()->flush();
+    }
+
+    /**
+     * @throws ORMException
+     */
+    public function refresh(Order $order): void
+    {
+        $this->getEntityManager()->refresh($order);
     }
 
     //    /**

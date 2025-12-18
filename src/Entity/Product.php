@@ -28,18 +28,22 @@ class Product
     #[ORM\Column]
     private ?float $price = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $picture = null;
+    /**
+     * @var Collection<int, OrderProduct>
+     */
+    #[ORM\OneToMany(targetEntity: OrderProduct::class, mappedBy: 'product')]
+    private Collection $orderProducts;
 
     /**
-     * @var Collection<int, OrderItem>
+     * @var Collection<int, Media>
      */
-    #[ORM\OneToMany(targetEntity: OrderItem::class, mappedBy: 'product')]
-    private Collection $orderItems;
+    #[ORM\OneToMany(targetEntity: Media::class, mappedBy: 'product', orphanRemoval: true)]
+    private Collection $media;
 
     public function __construct()
     {
-        $this->orderItems = new ArrayCollection();
+        $this->orderProducts = new ArrayCollection();
+        $this->media = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -95,42 +99,59 @@ class Product
         return $this;
     }
 
-    public function getPicture(): ?string
-    {
-        return $this->picture;
-    }
-
-    public function setPicture(string $picture): static
-    {
-        $this->picture = $picture;
-
-        return $this;
-    }
-
     /**
-     * @return Collection<int, OrderItem>
+     * @return Collection<int, OrderProduct>
      */
-    public function getOrderItems(): Collection
+    public function getOrderProducts(): Collection
     {
-        return $this->orderItems;
+        return $this->orderProducts;
     }
 
-    public function addOrderItem(OrderItem $orderItem): static
+    public function addOrderProduct(OrderProduct $orderProduct): static
     {
-        if (!$this->orderItems->contains($orderItem)) {
-            $this->orderItems->add($orderItem);
-            $orderItem->setProduct($this);
+        if (!$this->orderProducts->contains($orderProduct)) {
+            $this->orderProducts->add($orderProduct);
+            $orderProduct->setProduct($this);
         }
 
         return $this;
     }
 
-    public function removeOrderItem(OrderItem $orderItem): static
+    public function removeOrderProduct(OrderProduct $orderProduct): static
     {
-        if ($this->orderItems->removeElement($orderItem)) {
+        if ($this->orderProducts->removeElement($orderProduct)) {
+            if ($orderProduct->getProduct() === $this) {
+                $orderProduct->setProduct(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Media>
+     */
+    public function getMedia(): Collection
+    {
+        return $this->media;
+    }
+
+    public function addMedium(Media $medium): static
+    {
+        if (!$this->media->contains($medium)) {
+            $this->media->add($medium);
+            $medium->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMedium(Media $medium): static
+    {
+        if ($this->media->removeElement($medium)) {
             // set the owning side to null (unless already changed)
-            if ($orderItem->getProduct() === $this) {
-                $orderItem->setProduct(null);
+            if ($medium->getProduct() === $this) {
+                $medium->setProduct(null);
             }
         }
 

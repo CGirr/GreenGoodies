@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Media;
 use App\Entity\Product;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -25,12 +26,20 @@ class ProductFixtures extends Fixture
         foreach ($products as $data) {
             $product = new Product();
             $product->setName($data['name']);
-            $product->setPicture($data['image']);
             $product->setShortDescription($faker->sentence());
             $product->setFullDescription($faker->paragraph(3));
             $product->setPrice($faker->randomFloat(2, 5, 50));
 
             $manager->persist($product);
+
+            $media = new Media();
+            $media->setType('image');
+            $media->setTitle($data['name']);
+            $media->setLink($data['image']);
+            $media->setAlt($data['name']);
+            $media->setProduct($product);
+
+            $manager->persist($media);
         }
 
         $manager->flush();

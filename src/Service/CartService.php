@@ -3,10 +3,11 @@
 namespace App\Service;
 
 use App\Entity\Order;
-use App\Entity\OrderItem;
+use App\Entity\OrderProduct;
 use App\Entity\Product;
+use App\Repository\OrderProductRepository;
 use App\Repository\OrderRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Exception\ORMException;
 use Symfony\Bundle\SecurityBundle\Security;
 
 readonly class CartService
@@ -14,9 +15,20 @@ readonly class CartService
     public function __construct
     (
         private OrderRepository $orderRepository,
+        private OrderProductRepository $orderProductRepository,
         private Security $security,
-        private EntityManagerInterface $entityManager,
     ) {
+    }
+
+    public function getCart(): ?Order
+    {
+        $user = $this->security->getUser();
+
+        if ($user === null) {
+            return null;
+        }
+
+        return $this->orderRepository->findCartByUser($user);
     }
 
     public function getOrCreateCart(): Order
@@ -29,8 +41,7 @@ readonly class CartService
             $cart->setCustomer($user);
             $cart->setTotalPrice(0);
 
-            $this->entityManager->persist($cart);
-            $this->entityManager->flush();
+            $this->orderRepository->save($cart);
         }
 
         return $cart;
@@ -38,24 +49,17 @@ readonly class CartService
 
     public function getCartInfoForProduct(Product $product): array
     {
-        $user = $this->security->getUser();
-
-        // There's no cart if the user isn't connected
-        if ($user === null) {
-            return ['quantity' => 0, 'isInCart' => false];
-        }
-
         // Looks for the cart
-        $cart = $this->orderRepository->findCartByUser($user);
+        $cart = $this->getCart();
         if ($cart === null) {
             return ['quantity' => 0, 'isInCart' => false];
         }
 
         // Looks for product in the cart
-        foreach ($cart->getOrderItems() as $orderItem) {
-            if ($orderItem->getProduct()->getId() === $product->getId()) {
+        foreach ($cart->getOrderProducts() as $orderProduct) {
+            if ($orderProduct->getProduct()->getId() === $product->getId()) {
                 return [
-                    'quantity' => $orderItem->getQuantity(),
+                    'quantity' => $orderProduct->getQuantity(),
                     'isInCart' => true,
                 ];
             }
@@ -65,16 +69,19 @@ readonly class CartService
         return ['quantity' => 0, 'isInCart' => false];
     }
 
+    /**
+     * @throws ORMException
+     */
     public function updateCartTotalPrice(Order $cart): void
     {
-        $this->entityManager->refresh($cart);
+        $this->orderRepository->refresh($cart);
 
         $total = 0;
-        foreach ($cart->getOrderItems() as $orderItem) {
-            $total += $orderItem->getUnitPrice() * $orderItem->getQuantity();
+        foreach ($cart->getOrderProducts() as $orderProduct) {
+            $total += $orderProduct->getUnitPrice() * $orderProduct->getQuantity();
         }
         $cart->setTotalPrice($total);
-        $this->entityManager->flush();
+        $this->orderRepository->save($cart);
     }
 
     public function updateProductQuantity(Product $product, int $quantity): void
@@ -82,51 +89,54 @@ readonly class CartService
         $cart = $this->getOrCreateCart();
 
         // Looks for product in cart
-        foreach ($cart->getOrderItems() as $orderItem) {
-            if ($orderItem->getProduct()->getId() === $product->getId()) {
+        foreach ($cart->getOrderProducts() as $orderProduct) {
+            if ($orderProduct->getProduct()->getId() === $product->getId()) {
                 if ($quantity === 0) {
                     // Removes from cart
-                    $this->entityManager->remove($orderItem);
+                    $this->orderProductRepository->remove($orderProduct);
                 } else {
                     // Updates quantity
-                    $orderItem->setQuantity($quantity);
+                    $orderProduct->setQuantity($quantity);
+                    $this->orderProductRepository->save($orderProduct);
                 }
-                $this->entityManager->flush();
                 $this->updateCartTotalPrice($cart);
                 return;
             }
         }
 
         if ($quantity > 0) {
-            $orderItem = new OrderItem;
-            $orderItem->setProduct($product);
-            $orderItem->setQuantity($quantity);
-            $orderItem->setUnitPrice($product->getPrice());
-            $orderItem->setParentOrder($cart);
+            $orderProduct = new OrderProduct;
+            $orderProduct->setProduct($product);
+            $orderProduct->setQuantity($quantity);
+            $orderProduct->setUnitPrice($product->getPrice());
+            $orderProduct->setParentOrder($cart);
 
-            $this->entityManager->persist($orderItem);
-            $this->entityManager->flush();
+            $this->orderProductRepository->save($orderProduct);
             $this->updateCartTotalPrice($cart);
         }
     }
 
     public function clearCart(): void
     {
-        $cart = $this->getOrCreateCart();
+        $cart = $this->getCart();
 
-        foreach ($cart->getOrderItems() as $orderItem) {
-            $this->entityManager->remove($orderItem);
+        if ($cart === null) {
+            return;
+        }
+
+        foreach ($cart->getOrderProducts() as $orderProduct) {
+            $this->orderProductRepository->remove($orderProduct);
         }
 
         $cart->setTotalPrice(0);
-        $this->entityManager->flush();
+        $this->orderRepository->save($cart);
     }
 
     public function validateCart(): bool
     {
-        $cart = $this->getOrCreateCart();
+        $cart = $this->getCart();
 
-        if ($cart->getOrderItems()->isEmpty()) {
+        if ($cart === null || $cart->getOrderProducts()->isEmpty()) {
             return false;
         }
 
@@ -134,7 +144,7 @@ readonly class CartService
         $cart->setOrderDate(new \DateTimeImmutable());
         $cart->setOrderNumber($cart->getId());
 
-        $this->entityManager->flush();
+        $this->orderRepository->save($cart);
         return true;
     }
 }

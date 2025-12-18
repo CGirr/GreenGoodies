@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class AccountController extends AbstractController
 {
-    public function __construct(private OrderService $orderService)
+    public function __construct(private readonly OrderService $orderService)
     {}
 
     #[Route('/account', name: 'app_account')]
