@@ -10,7 +10,9 @@
 
 <div class="example-wrapper">
     {% for product in products %}
-        <img src="{{ asset('images/products/' ~ product.picture) }}" alt="{{ product.name }}"/>
+        {% if product.mainImage %}
+            <img src="{{ asset('images/' ~ product.mainImage.link) }}" alt="{{ product.mainImage.alt }}">
+        {% endif %}
         <div>{{ product.name }}</div>
         <div>{{ product.shortDescription }}</div>
         <div>{{ product.price }}€</div>

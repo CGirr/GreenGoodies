@@ -27,12 +27,13 @@ final class ProductController extends AbstractController
             throw $this->createNotFoundException('Produit non trouvé');
         }
 
+        $productModel = $this->productService->createProductModel($product);
         $cartInfo = $this->cartService->getCartInfoForProduct($product);
 
         $form = null;
         if ($this->getUser()) {
             $initialQuantity = $cartInfo['isInCart'] ? $cartInfo['quantity'] : 1;
-            $form =$this->createForm(AddToCartType::class, ['quantity' => $initialQuantity]);
+            $form = $this->createForm(AddToCartType::class, ['quantity' => $initialQuantity]);
 
             $form->handleRequest($request);
 
@@ -45,7 +46,7 @@ final class ProductController extends AbstractController
         }
 
         return $this->render('product/index.html.twig', [
-            'product' => $product,
+            'product' => $productModel,
             'form' => $form,
             'isInCart' => $cartInfo['isInCart'],
         ]);

@@ -35,7 +35,7 @@ class ProductFixtures extends Fixture
             $media = new Media();
             $media->setType('image');
             $media->setTitle($data['name']);
-            $media->setLink($data['image']);
+            $media->setLink('products/' . $data['image']);
             $media->setAlt($data['name']);
             $media->setProduct($product);
 

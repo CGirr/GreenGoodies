@@ -1,18 +1,8 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello CartController!{% endblock %}
+{% block title %}Panier{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-    <div>
-        {% if cart.orderProducts is not empty %}
-            <a href="{{ path('app_cart_clear') }}">Vider le panier</a>
-        {% endif %}
-    </div>
     <div>
         {% for message in app.flashes('success') %}
             <div>{{ message }}</div>
@@ -20,20 +10,29 @@
         {% for message in app.flashes('error') %}
             <div>{{ message }}</div>
         {% endfor %}
-
-        {% for item in cart.orderProducts %}
-            <img src="{{ asset('images/products/' ~ item.product.picture) }}" alt="{{ item.product.name }}"/>
-            <div>{{ item.product.name }}</div>
-            <div>Quantité : {{ item.quantity }}</div>
-            <div>Prix unitaire : {{ item.unitPrice }}€</div>
-            <div>Total : {{ item.quantity * item.unitPrice }}€</div>
-        {% endfor %}
-
-        <div>Total panier : {{ cart.totalPrice }}€</div>
     </div>
-    <div>
-        {% if cart.orderProducts is not empty %}
+
+    {% if cart and cart.items is not empty %}
+        <div>
+            <a href="{{ path('app_cart_clear') }}">Vider le panier</a>
+        </div>
+        <div>
+            {% for item in cart.items %}
+                {% if item.productImage %}
+                    <img src="{{ asset('images/' ~ item.productImage) }}" alt="{{ item.productImageAlt }}">
+                {% endif %}
+                <div>{{ item.productName }}</div>
+                <div>Quantité : {{ item.quantity }}</div>
+                <div>Prix unitaire : {{ item.unitPrice }}€</div>
+                <div>Total : {{ item.totalPrice }}€</div>
+            {% endfor %}
+
+            <div>Total panier : {{ cart.totalPrice }}€</div>
+        </div>
+        <div>
             <a href="{{ path('app_cart_validate') }}">Valider la commande</a>
-        {% endif %}
-    </div>
+        </div>
+    {% else %}
+        <p>Votre panier est vide.</p>
+    {% endif %}
 {% endblock %}

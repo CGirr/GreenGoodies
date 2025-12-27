@@ -5,6 +5,8 @@ namespace App\Service;
 use App\Entity\Order;
 use App\Entity\OrderProduct;
 use App\Entity\Product;
+use App\Model\CartItemModel;
+use App\Model\CartModel;
 use App\Repository\OrderProductRepository;
 use App\Repository\OrderRepository;
 use Doctrine\ORM\Exception\ORMException;
@@ -146,5 +148,35 @@ readonly class CartService
 
         $this->orderRepository->save($cart);
         return true;
+    }
+
+    public function getCartModel(): ?CartModel
+    {
+        $cart = $this->getCart();
+
+        if ($cart === null) {
+            return null;
+        }
+
+        $items = [];
+        foreach ($cart->getOrderProducts() as $orderProduct) {
+            $product = $orderProduct->getProduct();
+            $mainImage = $product->getMedia()->first() ?: null;
+
+            $items[] = new CartItemModel(
+                id: $orderProduct->getId(),
+                productName: $product->getName(),
+                productImage: $mainImage?->getLink(),
+                productImageAlt: $mainImage?->getAlt(),
+                quantity: $orderProduct->getQuantity(),
+                unitPrice: $orderProduct->getUnitPrice(),
+                totalPrice: $orderProduct->getQuantity() * $orderProduct->getUnitPrice(),
+            );
+        }
+
+        return new CartModel(
+            items: $items,
+            totalPrice: $cart->getTotalPrice(),
+        );
     }
 }
