@@ -2,9 +2,12 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+        <title>{% block title %}GreenGoodies{% endblock %}</title>
+
         {% block stylesheets %}
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
         {% endblock %}
 
         {% block javascripts %}
@@ -12,6 +15,30 @@
         {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        <header class="menu">
+            <a href="{{ path('app_home') }}" class="logo">
+                <img src="{{ asset('images/logo.svg') }}" alt="Green Goodies">
+            </a>
+            <nav class="nav-links">
+                {% if app.user %}
+                    <a href="{{ path('app_home') }}">Nos produits</a>
+                    <a href="{{ path('app_cart') }}">Mon panier</a>
+                    <a href="{{ path('app_account') }}">Mon compte</a>
+                    <a href="{{ path('app_logout') }}">Déconnexion</a>
+                {% else %}
+                    <a href="{{ path('app_login') }}">Se connecter</a>
+                    <a href="{{ path('app_register') }}">S'inscrire</a>
+                {% endif %}
+            </nav>
+        </header>
+
+        <main>
+            {% block body %}{% endblock %}
+        </main>
+
+        <footer class="footer">
+            <span>© GreenGoodies - {{ 'now'|date('Y') }}</span>
+        </footer>
+
     </body>
 </html>

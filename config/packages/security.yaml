@@ -52,6 +52,8 @@ security:
     access_control:
         - { path: ^/api/login, roles: PUBLIC_ACCESS }
         - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/cart, roles: ROLE_USER }
+        - { path: ^/account, roles: ROLE_USER }
 
 when@test:
     security:
