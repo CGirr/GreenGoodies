@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Product;
 use App\Form\AddToCartType;
 use App\Repository\ProductRepository;
 use App\Service\CartService;
@@ -19,14 +20,9 @@ final class ProductController extends AbstractController
     ) {
     }
 
-    #[Route('/product/{id}', name: 'app_product')]
-    public function show(int $id, Request $request): Response
+    #[Route('/product/{id}', name: 'app_product', requirements: ['id' => '\d+'])]
+    public function show(Product $product, Request $request): Response
     {
-        $product = $this->productService->getProduct($id);
-        if ($product === null) {
-            throw $this->createNotFoundException('Produit non trouvé');
-        }
-
         $productModel = $this->productService->createProductModel($product);
         $cartInfo = $this->cartService->getCartInfoForProduct($product);
 
@@ -41,7 +37,7 @@ final class ProductController extends AbstractController
                 $quantity = $form->get('quantity')->getData();
                 $this->cartService->updateProductQuantity($product, $quantity);
 
-                return $this->redirectToRoute('app_product', ['id' => $id]);
+                return $this->redirectToRoute('app_product', ['id' => $product->getId()]);
             }
         }
 

@@ -3,16 +3,38 @@
 {% block title %}Hello AccountController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <style>
+        .example-wrapper {
+            margin: 1em auto;
+            max-width: 800px;
+            width: 95%;
+            font: 18px/1.5 sans-serif;
+        }
 
-<div>
-    {% for order in orders %}
-        {{ order.orderNumber }}
-        {{ order.orderDate|date('d/m/Y') }}
-        {{ order.totalPrice }}
-    {% endfor %}
-</div>
+        .example-wrapper code {
+            background: #F5F5F5;
+            padding: 2px 6px;
+        }
+    </style>
+
+    <div>
+        <h2>Mes commandes</h2>
+        {% for order in orders %}
+            {{ order.orderNumber }}
+            {{ order.orderDate|date('d/m/Y') }}
+            {{ order.totalPrice }}
+        {% endfor %}
+    </div>
+    <div>
+        <h2>Mon accès API</h2>
+        <a href="{{ path('app_account_toggle_api') }}">
+            {{ app.user.apiAccess ? 'Désactiver mon accès API' : 'Activer mon accès API' }}
+        </a>
+    </div>
+    <div>
+        <a href="{{ path('app_account_delete') }}"
+           onclick="return confirm('Souhaitez-vous vraiment supprimer votre compte ?')">
+            Supprimer mon compte
+        </a>
+    </div>
 {% endblock %}
