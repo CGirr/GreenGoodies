@@ -18,7 +18,7 @@ final class ProductApiController extends AbstractController
     }
 
     #[Route('/api/products', name: 'products', methods: ['GET'])]
-    public function getProducts()
+    public function getProducts(): JsonResponse
     {
         $products = $this->productApiService->getAllProducts();
 
@@ -27,3 +27,4 @@ final class ProductApiController extends AbstractController
         return new JsonResponse($json, 200, [], true);
     }
 }
+5

@@ -12,7 +12,9 @@ class AddToCartType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('quantity', IntegerType::class)
+            ->add('quantity', IntegerType::class, [
+                'label' => 'Quantité',
+            ])
         ;
     }
 
