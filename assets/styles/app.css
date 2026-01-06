@@ -169,6 +169,64 @@ main {
     background: #333333;
 }
 
+.conviction-section, .values-section {
+    display: flex;
+    height: 646px;
+}
+
+.conviction-section {
+    margin-top: -40px;
+}
+
+.conviction-content {
+    flex: 1;
+    background: #EBE3D3;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    text-align: left;
+    padding: 40px;
+}
+
+.conviction-image {
+    width: 487px;
+    background: url('/images/login.webp') center/cover no-repeat;
+}
+
+.conviction-content h2, .values-content h2 {
+    font-size: 20px;
+    font-weight: 500;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.conviction-content p, .values-content p {
+    font-size: 14px;
+    font-weight: 300;
+    color: #333333;
+    max-width: 425px;
+}
+
+.values-image {
+    width: 487px;
+    background: url('/images/values.webp') center/cover no-repeat;
+}
+
+.values-content {
+    flex: 1;
+    background: #E8F0E3;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+    text-align: left;
+    padding: 40px;
+}
+
+.values-section h2 {
+    padding-right: 289px;
+}
+
 /* Single product card */
 .single-product-section {
     height: 686px;
@@ -236,7 +294,7 @@ main {
     text-align: center;
 }
 
-.single-product-button {
+.single-product-button, .login-register-form button {
     width: 100%;
     padding: 30px 176px;
     background: #565656;
@@ -246,3 +304,92 @@ main {
     border: none;
 }
 
+.single-product-button:hover,
+.login-register-form button:hover {
+    background: #000000;
+    cursor: pointer;
+}
+
+/* Login and Register forms */
+.login-register-section {
+    display: flex;
+    gap: 100px;
+}
+
+.login-register-image img {
+    width: 734px;
+}
+
+.login-register-form {
+    display: flex;
+    flex-direction: column;
+    padding: 80px 127px 0 0;
+    width: 100%;
+}
+
+.login-register-form h1 {
+    font-weight: 500;
+    font-size: 24px;
+    margin-bottom: 41px;
+}
+
+.login-register-form p {
+    font-weight: 400;
+    font-size: 12px;
+    color: #666666;
+    margin-top: -31px;
+    margin-bottom: 24px;
+}
+
+.login-register-form label {
+    font-weight: 400;
+    font-size: 14px;
+    color: #666666;
+    margin-bottom: 10px;
+}
+
+.login-register-form > div > label {
+    display: block;
+}
+
+.login-register-form input {
+    width: 100%;
+    background: #FFFDF7;
+    height: 67px;
+    margin-bottom: 30px;
+    border: 1px solid #666666;
+    padding: 15px;
+}
+
+.login-register-form a {
+    display: flex;
+    justify-content: center;
+    font-weight: 400;
+    font-size: 14px;
+    color: #666666;
+    margin-top: 30px;
+}
+
+.checkbox-row {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+}
+
+.login-register-form div:has(input[type="checkbox"]) {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+}
+
+.login-register-form div:has(input[type="checkbox"]) label {
+    margin-bottom: 50px;
+}
+
+.login-register-form input[type="checkbox"] {
+    width: 19px;
+    height: 19px;
+    margin-bottom: 48px;
+}

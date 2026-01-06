@@ -3,15 +3,22 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
-    <h1>Register</h1>
+    <section class="login-register-section">
+        <div class="login-register-image">
+            <img src="{{ asset('images/register.webp') }}" alt="Image de feuilles">
+        </div>
 
-    {{ form_start(registrationForm) }}
-    {{ form_row(registrationForm.firstName) }}
-    {{ form_row(registrationForm.lastName) }}
-    {{ form_row(registrationForm.email) }}
-    {{ form_row(registrationForm.plainPassword) }}
-    {{ form_row(registrationForm.agreeTerms) }}
+        {{ form_start(registrationForm, {'attr': {'class': 'login-register-form'}}) }}
+        <h1>Inscription</h1>
+        <p>Tous les champs sont obligatoires</p>
+        {{ form_row(registrationForm.firstName) }}
+        {{ form_row(registrationForm.lastName) }}
+        {{ form_row(registrationForm.email) }}
+        {{ form_row(registrationForm.plainPassword) }}
+        {{ form_row(registrationForm.agreeTerms) }}
 
-    <button type="submit">S'inscrire</button>
-    {{ form_end(registrationForm) }}
+        <button type="submit">S'inscrire</button>
+        <a href="{{ path('app_login') }}">Déjà un compte ? Se connecter</a>
+        {{ form_end(registrationForm) }}
+    </section>
 {% endblock %}

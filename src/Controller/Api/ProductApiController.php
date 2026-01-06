@@ -27,4 +27,3 @@ final class ProductApiController extends AbstractController
         return new JsonResponse($json, 200, [], true);
     }
 }
-5
