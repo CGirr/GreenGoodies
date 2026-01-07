@@ -1,3 +1,6 @@
+/* =====================
+   RESET & BASE
+   ===================== */
 * {
     margin: 0;
     padding: 0;
@@ -6,6 +9,7 @@
 
 body {
     font-family: 'Inter', sans-serif;
+    font-size: 14px;
     background: #FFFDF7;
     color: #333333;
     min-height: 100vh;
@@ -19,7 +23,41 @@ main {
     flex: 1;
 }
 
-/* Menu */
+/* =====================
+   REUSABLE COMPONENTS
+   ===================== */
+.btn {
+    display: block;
+    width: 100%;
+    padding: 30px 150px;
+    background: #565656;
+    color: #FFFFFF;
+    text-decoration: none;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background: #000000;
+}
+
+.section-beige {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #F7F1EC;
+}
+
+.section-title {
+    font-weight: 500;
+    font-size: 20px;
+}
+
+/* =====================
+   MENU
+   ===================== */
 .menu {
     display: flex;
     justify-content: space-between;
@@ -37,7 +75,6 @@ main {
 }
 
 .nav-links a {
-    font-size: 14px;
     color: #333333;
     text-decoration: none;
 }
@@ -46,20 +83,22 @@ main {
     text-decoration: underline;
 }
 
-/* Footer */
+/* =====================
+   FOOTER
+   ===================== */
 .footer {
     display: flex;
     justify-content: flex-end;
     padding: 31px 100px;
     border-top: 1px solid #F6F5F0;
-    font-size: 14px;
 }
 
-/* Hero */
+/* =====================
+   HERO
+   ===================== */
 .hero {
     display: flex;
     height: 751px;
-    width: 1440px;
     background: #E8F0E3;
 }
 
@@ -88,14 +127,15 @@ main {
     background: url("/images/hero.jpg") center/cover no-repeat;
 }
 
-/* Products section */
+/* =====================
+   PRODUCTS
+   ===================== */
 .products-section {
     padding: 37px 0;
 }
 
 .products-title {
     font-weight: 500;
-    font-size: 14px;
     text-transform: uppercase;
     padding-left: 100px;
     margin-bottom: 37px;
@@ -106,7 +146,6 @@ main {
     grid-template-columns: repeat(3, 480px);
 }
 
-/* Product card */
 .product-card {
     display: flex;
     flex-direction: column;
@@ -140,15 +179,12 @@ main {
 }
 
 .product-description {
-    font-size: 14px;
     color: #666666;
     text-align: center;
     margin-bottom: 20px;
 }
 
 .product-price {
-    font-size: 14px;
-    color: #333333;
     margin-bottom: 20px;
 }
 
@@ -158,7 +194,6 @@ main {
     align-items: center;
     width: 100%;
     height: 77px;
-    font-size: 14px;
     color: #000000;
     text-decoration: none;
     margin-bottom: -40px;
@@ -169,7 +204,11 @@ main {
     background: #333333;
 }
 
-.conviction-section, .values-section {
+/* =====================
+   CONVICTION AND VALUES
+   ===================== */
+.conviction-section,
+.values-section {
     display: flex;
     height: 646px;
 }
@@ -178,56 +217,61 @@ main {
     margin-top: -40px;
 }
 
-.conviction-content {
+.conviction-content,
+.values-content {
     flex: 1;
-    background: #EBE3D3;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    text-align: left;
     padding: 40px;
 }
 
-.conviction-image {
-    width: 487px;
-    background: url('/images/login.webp') center/cover no-repeat;
+.conviction-content {
+    background: #EBE3D3;
 }
 
-.conviction-content h2, .values-content h2 {
+.values-content {
+    background: #E8F0E3;
+    align-items: flex-end;
+}
+
+.conviction-content h2,
+.values-content h2 {
     font-size: 20px;
     font-weight: 500;
     text-transform: uppercase;
     margin-bottom: 10px;
 }
 
-.conviction-content p, .values-content p {
-    font-size: 14px;
+.conviction-content p,
+.values-content p {
     font-weight: 300;
-    color: #333333;
     max-width: 425px;
 }
 
+.conviction-image,
 .values-image {
     width: 487px;
-    background: url('/images/values.webp') center/cover no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
-.values-content {
-    flex: 1;
-    background: #E8F0E3;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: flex-end;
-    text-align: left;
-    padding: 40px;
+.conviction-image {
+    background-image: url('/images/login.webp');
+}
+
+.values-image {
+    background-image: url('/images/values.webp');
 }
 
 .values-section h2 {
     padding-right: 289px;
 }
 
-/* Single product card */
+/* =====================
+   PRODUCT (SINGLE)
+   ===================== */
 .single-product-section {
     height: 686px;
     display: flex;
@@ -265,15 +309,12 @@ main {
 }
 
 .single-product-card h3 {
-    font-weight: 400;
     font-size: 10px;
     margin-bottom: 10px;
     color: #666666;
 }
 
 .single-product-description {
-    font-weight: 400;
-    font-size: 14px;
     color: #666666;
 }
 
@@ -290,27 +331,12 @@ main {
     padding: 15px;
     margin-bottom: 15px;
     border: 1px solid #E5E5E5;
-    font-size: 14px;
     text-align: center;
 }
 
-.single-product-button, .login-register-form button {
-    width: 100%;
-    padding: 30px 176px;
-    background: #565656;
-    color: #FFFFFF;
-    font-size: 14px;
-    font-weight: 400;
-    border: none;
-}
-
-.single-product-button:hover,
-.login-register-form button:hover {
-    background: #000000;
-    cursor: pointer;
-}
-
-/* Login and Register forms */
+/* =====================
+   FORMS (LOGIN/REGISTER)
+   ===================== */
 .login-register-section {
     display: flex;
     gap: 100px;
@@ -334,7 +360,6 @@ main {
 }
 
 .login-register-form p {
-    font-weight: 400;
     font-size: 12px;
     color: #666666;
     margin-top: -31px;
@@ -342,8 +367,6 @@ main {
 }
 
 .login-register-form label {
-    font-weight: 400;
-    font-size: 14px;
     color: #666666;
     margin-bottom: 10px;
 }
@@ -364,18 +387,11 @@ main {
 .login-register-form a {
     display: flex;
     justify-content: center;
-    font-weight: 400;
-    font-size: 14px;
     color: #666666;
     margin-top: 30px;
 }
 
-.checkbox-row {
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: flex-end;
-}
-
+/* Checkbox */
 .login-register-form div:has(input[type="checkbox"]) {
     display: flex;
     flex-direction: row-reverse;
@@ -392,4 +408,150 @@ main {
     width: 19px;
     height: 19px;
     margin-bottom: 48px;
+    accent-color: black;
+    -webkit-appearance: none;
+}
+
+.login-register-form input[type="checkbox"]:checked {
+    background-color: #333333;
+    box-shadow: inset 0 0 0 2px white;
+}
+
+/* =====================
+   ACCOUNT
+   ===================== */
+.account-section {
+    padding: 43px 0 77px 0;
+    gap: 15px;
+}
+
+.account-section h1 {
+    margin-bottom: 43px;
+}
+
+.account-section div {
+    width: 604px;
+    background: #FFFDF7;
+    display: flex;
+    flex-direction: column;
+    padding: 60px;
+}
+
+.account-section div h2 {
+    font-weight: 600;
+    color: #000000;
+    margin-bottom: 30px;
+}
+
+.account-table {
+    border-spacing: 0;
+    width: 485px;
+    table-layout: fixed;
+}
+
+.account-table th {
+    color: #666666;
+    text-align: left;
+}
+
+.account-table td {
+    font-weight: 500;
+    padding: 20px 0 30px 0;
+    border-bottom: 1px solid #CCCCCC;
+}
+
+.account-table th:nth-child(1),
+.account-table td:nth-child(1) {
+    padding-right: 165px;
+    width: 60px;
+}
+
+.account-table th:nth-child(2),
+.account-table td:nth-child(2) {
+    width: 80px;
+}
+
+.account-table th:nth-child(3),
+.account-table td:nth-child(3) {
+    padding-left: 165px;
+}
+
+/* =====================
+   CART
+   ===================== */
+.cart-section {
+    padding: 102px 418px 146px 418px;
+}
+
+.cart-section h1 {
+    margin-bottom: 16px;
+}
+
+.cart-empty {
+    align-self: flex-start;
+    margin-bottom: 17px;
+}
+
+.cart-empty a {
+    color: #666666;
+    text-decoration: none;
+}
+
+.cart-product {
+    width: 604px;
+    display: flex;
+    background: #FFFDF7;
+    padding: 40px 0 47px 43px;
+    gap: 55px;
+    margin-bottom: 5px;
+}
+
+.cart-product-img img {
+    width: 142px;
+    height: 132px;
+    object-fit: cover;
+}
+
+.cart-product-name {
+    font-weight: 600;
+    color: black;
+    margin-bottom: 6px;
+}
+
+.cart-product-qty {
+    color: #666666;
+    margin-bottom: 13px;
+}
+
+.cart-product-price {
+    font-weight: 500;
+    font-size: 18px;
+}
+
+.cart-total {
+    width: 604px;
+    background: #FFFDF7B2;
+    display: flex;
+    justify-content: flex-end;
+    padding: 20px 38px 20px 0;
+    margin-bottom: 29px;
+}
+
+.cart-total-content {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.cart-total-price {
+    font-weight: 500;
+}
+
+.cart-total-price span {
+    font-size: 20px;
+}
+
+.cart-delivery {
+    font-size: 12px;
+    color: #666666;
 }

@@ -18,7 +18,7 @@
             {% if form %}
                 {{ form_start(form) }}
                 {{ form_row(form.quantity) }}
-                <button type="submit" class="single-product-button">
+                <button type="submit" class="btn">
                     {{ isInCart ? 'Mettre à jour' : 'Ajouter au panier' }}
                 </button>
                 {{ form_end(form) }}

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Connexion{% endblock %}
+{% block title %}Se connecter{% endblock %}
 
 {% block body %}
     <section class="login-register-section">
@@ -19,7 +19,7 @@
             <input type="password" name="_password" id="password" autocomplete="current-password" required>
             <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
 
-            <button type="submit">
+            <button type="submit" class="btn">
                 Se connecter
             </button>
             <a href="{{ path('app_register') }}">Pas encore de compte ? S'inscrire</a>

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}S'inscrire{% endblock %}
 
 {% block body %}
     <section class="login-register-section">
@@ -17,7 +17,7 @@
         {{ form_row(registrationForm.plainPassword) }}
         {{ form_row(registrationForm.agreeTerms) }}
 
-        <button type="submit">S'inscrire</button>
+        <button type="submit" class="btn">S'inscrire</button>
         <a href="{{ path('app_login') }}">Déjà un compte ? Se connecter</a>
         {{ form_end(registrationForm) }}
     </section>
