@@ -5,6 +5,10 @@ namespace App\Entity;
 use App\Repository\MediaRepository;
 use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * Media entity for storing product images.
+ * Contains file path and alt text for accessibility.
+ */
 #[ORM\Entity(repositoryClass: MediaRepository::class)]
 class Media
 {

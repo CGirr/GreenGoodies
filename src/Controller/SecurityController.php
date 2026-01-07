@@ -7,11 +7,22 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
+/**
+ * Controller for authentication
+ */
 class SecurityController extends AbstractController
 {
+    /**
+     * Displays the login form and handles authentication errors
+     * Redirects to homepage if already logged in
+     *
+     * @param AuthenticationUtils $authenticationUtils
+     * @return Response
+     */
     #[Route(path: '/login', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
+        // Redirect if already logged in
         if ($this->getUser()) {
             return $this->redirectToRoute('app_home');
         }
@@ -28,6 +39,11 @@ class SecurityController extends AbstractController
         ]);
     }
 
+    /**
+     * Handles user logout
+     *
+     * @return void
+     */
     #[Route(path: '/logout', name: 'app_logout')]
     public function logout(): void
     {

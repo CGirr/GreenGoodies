@@ -2,6 +2,10 @@
 
 namespace App\Model;
 
+/**
+ * Data Transfer Object for cart line items.
+ * Represents a product with quantity in the shopping cart.
+ */
 readonly class CartItemModel
 {
     public function __construct(

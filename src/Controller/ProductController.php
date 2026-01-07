@@ -12,6 +12,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
+/**
+ * Controller for single product display and cart actions.
+ */
 final class ProductController extends AbstractController
 {
     public function __construct(
@@ -20,6 +23,13 @@ final class ProductController extends AbstractController
     ) {
     }
 
+    /**
+     * Displays a single product and handles add-to-cart form submission
+     *
+     * @param Product $product The product entity
+     * @param Request $request The HTTP request
+     * @return Response The rendered product page
+     */
     #[Route('/product/{id}', name: 'app_product', requirements: ['id' => '\d+'])]
     public function show(Product $product, Request $request): Response
     {
@@ -27,6 +37,8 @@ final class ProductController extends AbstractController
         $cartInfo = $this->cartService->getCartInfoForProduct($product);
 
         $form = null;
+
+        // Only show cart form for authenticated users
         if ($this->getUser()) {
             $initialQuantity = $cartInfo['isInCart'] ? $cartInfo['quantity'] : 1;
             $form = $this->createForm(AddToCartType::class, ['quantity' => $initialQuantity]);

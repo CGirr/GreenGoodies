@@ -6,8 +6,13 @@ use App\Service\Api\ProductApiService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
+/**
+ * API Controller for product endpoints.
+ * Requires JWT authentication (configured in security.yaml).
+ */
 final class ProductApiController extends AbstractController
 {
     public function __construct(
@@ -17,6 +22,14 @@ final class ProductApiController extends AbstractController
 
     }
 
+
+    /**
+     * Returns all products as JSON
+     * Uses serializer groups to control exposed fields
+     *
+     * @return JsonResponse
+     * @throws ExceptionInterface
+     */
     #[Route('/api/products', name: 'products', methods: ['GET'])]
     public function getProducts(): JsonResponse
     {

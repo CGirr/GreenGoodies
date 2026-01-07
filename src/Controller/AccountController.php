@@ -9,6 +9,9 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
+/**
+ * Controller for user account management
+ */
 final class AccountController extends AbstractController
 {
     public function __construct(
@@ -18,6 +21,11 @@ final class AccountController extends AbstractController
     ) {
     }
 
+    /**
+     * Displays the user's account page with order history
+     *
+     * @return Response The rendered account page
+     */
     #[Route('/account', name: 'app_account')]
     public function index(): Response
     {
@@ -27,6 +35,11 @@ final class AccountController extends AbstractController
         ]);
     }
 
+    /**
+     * Toggles API access for current user
+     *
+     * @return Response Redirect to account page
+     */
     #[Route('/account/toggle-api', name: 'app_account_toggle_api')]
     public function toggleApi(): Response
     {
@@ -36,6 +49,11 @@ final class AccountController extends AbstractController
         return $this->redirectToRoute('app_account');
     }
 
+    /**
+     * Deletes the current user's account and logs them out
+     *
+     * @return Response Redirect to homepage with success message
+     */
     #[Route('/account/delete', name: 'app_account_delete')]
     public function deleteAccount(): Response
     {

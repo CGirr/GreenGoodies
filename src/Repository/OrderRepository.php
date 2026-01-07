@@ -9,6 +9,9 @@ use Doctrine\ORM\Exception\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
+ *  Repository for Order entity.
+ *  Handles cart and order queries.
+ *
  * @extends ServiceEntityRepository<Order>
  */
 class OrderRepository extends ServiceEntityRepository
@@ -18,6 +21,12 @@ class OrderRepository extends ServiceEntityRepository
         parent::__construct($registry, Order::class);
     }
 
+    /**
+     *  Finds the active cart for a user
+     *
+     * @param User $user
+     * @return Order|null
+     */
     public function findCartByUser(User $user): ?Order
     {
         return $this->createQueryBuilder('o')
@@ -29,6 +38,12 @@ class OrderRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
+    /**
+     *  Finds all validated orders for a user
+     *
+     * @param User $user
+     * @return array
+     */
     public function findOrdersByUser(User $user): array
     {
         return $this->createQueryBuilder('o')
@@ -40,6 +55,12 @@ class OrderRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * Persists and flushes an order
+     *
+     * @param Order $order
+     * @return void
+     */
     public function save(Order $order): void
     {
         $this->getEntityManager()->persist($order);
@@ -47,6 +68,8 @@ class OrderRepository extends ServiceEntityRepository
     }
 
     /**
+     * Refreshes an order from the database
+     *
      * @throws ORMException
      */
     public function refresh(Order $order): void

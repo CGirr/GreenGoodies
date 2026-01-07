@@ -10,6 +10,9 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 
 /**
+ * Repository for User entity.
+ * Implements PasswordUpgraderInterface for automatic password rehashing.
+ *
  * @extends ServiceEntityRepository<User>
  */
 class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
@@ -33,12 +36,24 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->getEntityManager()->flush();
     }
 
+    /**
+     * Removes a user from the database
+     *
+     * @param User $user
+     * @return void
+     */
     public function remove(User $user): void
     {
         $this->getEntityManager()->remove($user);
         $this->getEntityManager()->flush();
     }
 
+    /**
+     * Persists and flushes a user
+     *
+     * @param User $user
+     * @return void
+     */
     public function save(User $user): void
     {
         $this->getEntityManager()->persist($user);

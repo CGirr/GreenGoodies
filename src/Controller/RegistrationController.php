@@ -11,11 +11,24 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
+/**
+ * Controller for user registration
+ */
 class RegistrationController extends AbstractController
 {
+    /**
+     * Handles user registration form display and submission
+     * Redirects to homepage if already logged in
+     *
+     * @param Request $request
+     * @param UserPasswordHasherInterface $userPasswordHasher
+     * @param EntityManagerInterface $entityManager
+     * @return Response
+     */
     #[Route('/register', name: 'app_register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
+        // Redirect if already logged in
         if ($this->getUser()) {
             return $this->redirectToRoute('app_home');
         }

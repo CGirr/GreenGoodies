@@ -5,6 +5,10 @@ namespace App\Entity;
 use App\Repository\OrderProductRepository;
 use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * OrderProduct entity representing a line item in an order.
+ * Links products to orders with quantity and unit price at time of purchase.
+ */
 #[ORM\Entity(repositoryClass: OrderProductRepository::class)]
 class OrderProduct
 {

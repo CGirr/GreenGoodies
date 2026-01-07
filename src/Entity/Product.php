@@ -9,6 +9,10 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
+/**
+ * Product entity representing items available for purchase.
+ * Contains product details, pricing, and associated media.
+ */
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 class Product
 {

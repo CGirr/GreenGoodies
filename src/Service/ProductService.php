@@ -7,11 +7,21 @@ use App\Model\MediaModel;
 use App\Model\ProductModel;
 use App\Repository\ProductRepository;
 
+/**
+ * Service for retrieving and transforming product data
+ */
 readonly class ProductService
 {
-    public function __construct(private ProductRepository $productRepository)
-    {}
+    public function __construct(
+        private ProductRepository $productRepository,
+    ) {
+    }
 
+    /**
+     * Retrieve all products as DTO
+     *
+     * @return array Array of product DTO
+     */
     public function getAllProducts(): array
     {
         $products = $this->productRepository->findAll();
@@ -19,11 +29,23 @@ readonly class ProductService
         return array_map(fn(Product $product) => $this->createProductModel($product), $products);
     }
 
+    /**
+     * Retrieves a product entity by ID
+     *
+     * @param int $id The product ID
+     * @return Product|null The product entity or null
+     */
     public function getProduct(int $id): ?Product
     {
         return $this->productRepository->find($id);
     }
 
+    /**
+     * Retrieves a product as DTO by ID
+     *
+     * @param int $id The product ID
+     * @return ProductModel|null The product DTO or null
+     */
     public function getProductModel(int $id): ?ProductModel
     {
         $product = $this->productRepository->find($id);
@@ -35,6 +57,12 @@ readonly class ProductService
         return $this->createProductModel($product);
     }
 
+    /**
+     * Transforms a Product entity into a ProductModel DTO
+     *
+     * @param Product $product
+     * @return ProductModel
+     */
     public function createProductModel(Product $product): ProductModel
     {
         $images = [];

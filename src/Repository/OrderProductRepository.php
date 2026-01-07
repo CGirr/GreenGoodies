@@ -7,6 +7,8 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
+ * Repository for OrderProduct entity (cart line items
+ *
  * @extends ServiceEntityRepository<OrderProduct>
  */
 class OrderProductRepository extends ServiceEntityRepository
@@ -16,12 +18,24 @@ class OrderProductRepository extends ServiceEntityRepository
         parent::__construct($registry, OrderProduct::class);
     }
 
+    /**
+     * Persists and flushes an order product
+     *
+     * @param OrderProduct $orderProduct
+     * @return void
+     */
     public function save(OrderProduct $orderProduct): void
     {
         $this->getEntityManager()->persist($orderProduct);
         $this->getEntityManager()->flush();
     }
 
+    /**
+     * Removes an order product from the database
+     *
+     * @param OrderProduct $orderProduct
+     * @return void
+     */
     public function remove(OrderProduct $orderProduct): void
     {
         $this->getEntityManager()->remove($orderProduct);
